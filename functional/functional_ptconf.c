@@ -104,19 +104,51 @@ char* returnFastfetchModuleFormat(cJSON* ptConfJson, char* gameID){
     cJSON* games = cJSON_GetObjectItemCaseSensitive(ptConfJson, "games");
     cJSON* game;
     cJSON_ArrayForEach(game, games){
-        cJSON* elem;
+        if (cJSON_GetObjectItemCaseSensitive(game, "gameid") == NULL){
+            fprintf(stderr, "ERROR: ""gameid"" field not found. Ensure it exists.\n");
+            exit(1);
+        }
+
+        // Datatype checks
+        if (cJSON_IsNumber(cJSON_GetObjectItemCaseSensitive(game, "gameid"))){
+            fprintf(stderr, "ERROR: ""gameid"" field entered as a number.\n\tFIX: replace the value of ""gameid"" with ""[gameid]"".\n");
+            exit(1);
+        }
+
+        if (!cJSON_IsString(cJSON_GetObjectItemCaseSensitive(game ,"format"))){
+            fprintf(stderr, "ERROR: The value of ""format"" isn't a string. Ensure your pt_config follows the documentation.\n");
+        }
+
         if (!strcmp(cJSON_GetObjectItemCaseSensitive(game, "gameid")->valuestring, gameID))
-            return cJSON_GetObjectItemCaseSensitive(game, "format")->valuestring;//TODO: add checks for datatypes and return errors
+            return cJSON_GetObjectItemCaseSensitive(game, "format")->valuestring;
     }
-    return NULL;
+    fprintf(stderr, "ERROR: ""gameid"" field not found, ensure your pt_config file follows the documentation.\n");
+    exit(1);
 }
 
 int returnFastfetchModuleDepth(cJSON* ptConfJson, char* gameID){
     cJSON* games = cJSON_GetObjectItemCaseSensitive(ptConfJson, "games");
     cJSON* game;
     cJSON_ArrayForEach(game, games){
+        if (cJSON_GetObjectItemCaseSensitive(game, "depth") == NULL){
+            fprintf(stderr, "ERROR: ""depth"" field not found for gameid %s. Ensure it exists.\n", gameID);
+            exit(1);
+        }
+
+
+        // Datatype checks
+        if (cJSON_IsNumber(cJSON_GetObjectItemCaseSensitive(game, "gameid"))){
+            fprintf(stderr, "ERROR: ""gameid"" field entered as a number.\n\tFIX: replace the value of ""gameid"" with ""[gameid]"".\n");
+            exit(1);
+        }
+
+        if (!cJSON_IsString(cJSON_GetObjectItemCaseSensitive(game ,"depth"))){
+            fprintf(stderr, "ERROR: The value of ""depth"" isn't a number. Ensure your pt_config follows the documentation.\n");
+        }
+
         if (!strcmp(cJSON_GetObjectItemCaseSensitive(game, "gameid")->valuestring, gameID))
-            return cJSON_GetObjectItemCaseSensitive(game, "depth")->valueint;//TODO: add checks for datatypes and return errors
+            return cJSON_GetObjectItemCaseSensitive(game, "depth")->valueint;
     }
-    return 0;
+    fprintf(stderr, "ERROR: ""gameid"" field not found, ensure your pt_config file follows the documentation.\n");
+    exit(1);
 }
