@@ -1,0 +1,15 @@
+{
+    "SteamUID" : "76561199034807814",
+    "games" : [
+        {
+            "gameid" : "1286830",
+            "format" : "│ Hours Wasted in SWTOR: %                              │",
+            "depth"  : 3
+        },
+        {
+            "gameid" : "730",
+            "format" : "│ DOOR STUCK, DOOR STUCK!: %                            │",
+            "depth"  : 4
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+# Output files
+[Bb]in/*
+[Oo]bj/*
+*.a
+*.so
+*.out
+*.lib
+*.dll
+*.exe
+
+# CMake
+[Cc][Mm]ake[Ff]iles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+
+# Project files
+*.dsp
+*.dsw
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Visual Studio
+*.vs
+*.opendb
+*.sdf
+*.map
+*.opensdf
+*.pdb
+*.sbr
+*.suo
+*.tlog
+*.ipch
+*.hm
+*.exp
+*.res
+*.bsc
+*.cnt
+*.p
+*.aps
+*.ncb
+*.opt
+*.plg
