@@ -53,12 +53,17 @@ void returnGameIDArr(cJSON *ptConfJson, char* gameIDsArr[], int len){
     int idx = 0;
 
     cJSON_ArrayForEach(game, games){
-        cJSON* elem;
-        cJSON_ArrayForEach(elem, game){
-            if (!strcmp(elem->string, "gameid")){
-                gameIDsArr[idx] = elem->valuestring;
-                idx++;
+        if (cJSON_GetObjectItemCaseSensitive(game, "gameid") != NULL){
+            if (!cJSON_IsString(cJSON_GetObjectItemCaseSensitive(game, "gameid"))){
+                fprintf(stderr, "ERROR: ""gameid"" isn't a string in the %d element in the ""games"" array in pt_config.\nEnsure your pt_config follows the documentation.\n", idx+1);
             }
+
+            gameIDsArr[idx] = cJSON_GetObjectItemCaseSensitive(game, "gameid")->valuestring;
+            idx++;
+        }
+        else {
+            fprintf(stderr, "ERROR: ""gameid"" field not found in the %d element in the ""games"" array in pt_config.\nEnsure your pt_config follows the documentation.\n", idx+1);
+            exit(1);
         }
     }
 }
