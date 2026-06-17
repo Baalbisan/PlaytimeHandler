@@ -13,17 +13,17 @@
 #include "./functional/functional_fetch.h"
 #include "lib/VDF/keyvalues.h"
 
-#define PTCONFIG_PATH "./pt_config.json"
-
 int main (){
     char* homeDir = getenv("HOME");
     char SteamUID32[11];//i.e. 52079950
     char playtimeStr[10]; //up to 999999999 minutes
     char vdfFilePath[256];
     char ffetchConfigFilePath[256];
+    char ptConfigPath[256];
 
     // Take gameIDs and uID form PTConfig.
-    cJSON* ptConfigJson = parsePTConfig(PTCONFIG_PATH);
+    sprintf(ptConfigPath, "%s/.config/fastfetch/pt_config.json", homeDir);
+    cJSON* ptConfigJson = parsePTConfig(ptConfigPath);
     int gameIDLen = getGameIDArrLen(ptConfigJson);
     char* gameIDArr[gameIDLen];
     returnGameIDArr(ptConfigJson, gameIDArr, gameIDLen);
