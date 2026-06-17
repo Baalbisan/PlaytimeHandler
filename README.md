@@ -1,11 +1,11 @@
 # Playtime Handler
 A simple program written in C to display steam game playtime in fastfetch.  
+  
+Please check the wiki page for usage instructions.
 
 # libraries used:
-
-- DaveGamble/cJSON
-- DreamyCecil/VDF
-
+- [DaveGamble/cJSON](https://github.com/DaveGamble/cJSON)
+- [DreamyCecil/VDF](https://github.com/DreamyCecil/VDF)
 
 # To Compile (Temporary Solution for now.):
 ```
