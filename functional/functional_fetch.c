@@ -68,7 +68,6 @@ void writeNewFormatIntoFetchConfig(cJSON* fetchConfJson, char* filePath, int dep
     // Write into file
     char* finalizedJsonStr = cJSON_Print(fetchConfJson);
     fputs(finalizedJsonStr, fetchConfFptr);
-    fprintf(stderr, "Fastfetch config written without error!\n");
     fclose(fetchConfFptr);
     cJSON_free(finalizedJsonStr);
 }
