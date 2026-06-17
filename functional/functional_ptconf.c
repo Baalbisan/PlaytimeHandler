@@ -75,22 +75,22 @@ bool checkSteamID64Validity(char* SteamID64){
 }
 
 char* returnSteamUID64(cJSON* ptConfJson){
-    cJSON* elem;
-    cJSON_ArrayForEach(elem, ptConfJson){
-        if (strcmp(elem->string, "SteamUID") == 0){
-            char UserID[18]; //i.e. 76561198012345678
-            strcpy(UserID, elem->valuestring);
-            if (checkSteamID64Validity(UserID)){
-                return elem->valuestring;
-            }
-            else {
-                fprintf(stderr, "ERROR: The steam user ID entered is invalid. Ensure you have copied the correct ID, as per the instructions.\n");
-                exit(1);
-            }
-        }
+    if (cJSON_GetObjectItemCaseSensitive(ptConfJson, "SteamUID") == NULL){
+            fprintf(stderr, "ERROR: ""SteamUID"" field not found, ensure it exists.\n");
+            exit(1);
     }
-    fprintf(stderr, "ERROR: No Steam UserID found in pt_config.json. Ensure your UserID exists and that it is formated as """"SteamUID"" : ""[YOUR_USER_ID]"""".\n");
-    exit(1);
+
+    if (!cJSON_IsString(cJSON_GetObjectItemCaseSensitive(ptConfJson, "SteamUID"))){
+        fprintf(stderr, "ERROR: The value of ""SteamUID"" isn't a string. Ensure your pt_config follows the documentation.\n");
+        exit(1);
+    }
+
+    if (!checkSteamID64Validity(cJSON_GetObjectItemCaseSensitive(ptConfJson, "SteamUID")->valuestring)){
+        fprintf(stderr, "ERROR: The steam user ID entered is invalid. Ensure you have copied and entered the correct ID, as per the documentation.\n");
+        exit(1);
+    }
+
+    return cJSON_GetObjectItemCaseSensitive(ptConfJson, "SteamUID")->valuestring;
 }
 
 void convertSteamID64toSteamID32(char* SteamID32,char* SteamID64){
@@ -142,8 +142,9 @@ int returnFastfetchModuleDepth(cJSON* ptConfJson, char* gameID){
             exit(1);
         }
 
-        if (!cJSON_IsString(cJSON_GetObjectItemCaseSensitive(game ,"depth"))){
+        if (!cJSON_IsNumber(cJSON_GetObjectItemCaseSensitive(game ,"depth"))){
             fprintf(stderr, "ERROR: The value of ""depth"" isn't a number. Ensure your pt_config follows the documentation.\n");
+            exit(1);
         }
 
         if (!strcmp(cJSON_GetObjectItemCaseSensitive(game, "gameid")->valuestring, gameID))
