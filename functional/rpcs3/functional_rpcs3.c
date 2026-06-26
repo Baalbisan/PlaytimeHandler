@@ -25,11 +25,9 @@ int returnPlaytimeFromRPCS3Dat(char* filepath, char* serial, bool verbose, char*
 
     char* line = NULL;
     size_t len = 0;
-    ssize_t read;
     bool playtimeFlag = false;
 
-    read = getline(&line, &len, perSetFptr);
-    while (read != -1) {//till EOF
+    while (getline(&line, &len, perSetFptr) != -1) {//till EOF
         if (!strcmp(line, "[Playtime]")){
             playtimeFlag = true;
         }
@@ -50,5 +48,4 @@ int returnPlaytimeFromRPCS3Dat(char* filepath, char* serial, bool verbose, char*
 
     free(line);
     fclose(perSetFptr);
-    exit(1);
 }
