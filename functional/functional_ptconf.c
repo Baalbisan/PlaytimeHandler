@@ -1,8 +1,8 @@
-// functional.c
+// functional_ptconf.c
 //
 // Written By: Baalbisan
 //
-// Last Modified: 17/06/2026
+// Last Modified: 26/06/2026
 #include "./functional_ptconf.h"
 
 #include <stdbool.h>
@@ -154,6 +154,28 @@ int returnFastfetchModuleDepth(cJSON* ptConfJson, char* gameID){
 
         if (!strcmp(cJSON_GetObjectItemCaseSensitive(game, "gameid")->valuestring, gameID))
             return cJSON_GetObjectItemCaseSensitive(game, "depth")->valueint;
+    }
+    fprintf(stderr, "ERROR: ""gameid"" field not found, ensure your pt_config file follows the documentation.\n");
+    exit(1);
+}
+
+GameType returnGameType(cJSON* ptConfJson, char* gameID){
+    cJSON* games = cJSON_GetObjectItemCaseSensitive(ptConfJson, "games");
+    cJSON* game;
+    cJSON_ArrayForEach(game, games){
+        if (cJSON_GetObjectItemCaseSensitive(game, "type") == NULL){
+            fprintf(stderr, "ERROR: ""type"" field not found for gameid %s. Ensure it exists.\n", gameID);
+            exit(1);
+        }
+
+        if (!strcmp(cJSON_GetObjectItemCaseSensitive(game, "gameid")->valuestring, gameID)){
+            if (!strcmp(cJSON_GetObjectItemCaseSensitive(game, "type")->valuestring, "steam")){
+                return STEAM;
+            }
+            else if (!strcmp(cJSON_GetObjectItemCaseSensitive(game, "type")->valuestring, "rpcs3")) {
+                return RPCS3;
+            }
+        }
     }
     fprintf(stderr, "ERROR: ""gameid"" field not found, ensure your pt_config file follows the documentation.\n");
     exit(1);

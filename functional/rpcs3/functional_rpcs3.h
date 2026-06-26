@@ -4,8 +4,8 @@
 //
 // Last Modified; 26/06/2026
 
-#ifndef FUNCTIONAL_RPCS3
-#define FUNCTIONAL_RPCS3
+#ifndef FUNCTIONAL_RPCS3_H
+#define FUNCTIONAL_RPCS3_H
 
 #include <stdbool.h>
 
@@ -15,4 +15,4 @@
  * */
 float returnPlaytimeFromRPCS3Dat(char* filepath, char* serial, bool verbose);
 
-#endif // !FUNCTIONAL_RPCS3
+#endif // !FUNCTIONAL_RPCS3_H
