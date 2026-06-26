@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-float returnPlaytimeFromRPCS3Dat(char* filepath, char* serial, bool verbose){
+int returnPlaytimeFromRPCS3Dat(char* filepath, char* serial, bool verbose, char* playtimeStr){
     if (serial == NULL){
         return -1;
     }
@@ -38,7 +38,8 @@ float returnPlaytimeFromRPCS3Dat(char* filepath, char* serial, bool verbose){
             char* tok = strtok(line, "=");
             if (!strcmp(serial, tok)){//GAME FOUND :D
                 tok = strtok(NULL, "=");
-                return strtof(tok, NULL)/60/60;
+                sprintf(playtimeStr, "%.2f", strtof(tok, NULL)/60/60);
+                return 0;
             }
             else {
                 fprintf(stderr, "ERROR: Playtime not found for Rpcs3 game %s in Rpcs3's persistent_settings.dat", serial);
