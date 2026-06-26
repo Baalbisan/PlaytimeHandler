@@ -15,7 +15,7 @@
 #include "lib/VDF/keyvalues.h"
 
 int main (){
-    bool verbose = false;
+    bool verbose = true;
     char* homeDir = getenv("HOME");
     char SteamUID32[11];//i.e. 52079950
     char playtimeStr[10]; //up to 999999999 minutes
@@ -52,14 +52,18 @@ int main (){
         GameType type = returnGameType(ptConfigJson, gameIDArr[i]);
         char formatStr[256];
         strcpy(formatStr, returnFastfetchModuleFormat(ptConfigJson, gameIDArr[i]));
-                switch (type) {
+        switch (type) {
             case STEAM:{
                 returnPlaytimeFromLocalConfigVDF(localConfigVDF, gameIDArr[i], playtimeStr);
+                break;
             }
             case RPCS3:{
                 returnPlaytimeFromRPCS3Dat(rpcs3FilePath, gameIDArr[i], verbose, playtimeStr);
+                break;
             }
-            default:{}
+            default:{
+                break;
+            }
         }
         returnFinalizedFormatStr(formatStr, playtimeStr);
         writeNewFormatIntoFetchConfig(fetchConfigJson, ffetchConfigFilePath, depth, formatStr);
